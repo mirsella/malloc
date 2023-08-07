@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../libft/libft.h"
 #include "pthread.h"
 #include "stdio.h"
 #include "stdlib.h"
@@ -31,7 +32,7 @@ typedef struct s_alloc {
   bool is_used;
 } t_alloc;
 
-static t_mmap *g_mmap = NULL;
+extern t_mmap *g_mmap;
 
 // NOTE: mutex.c
 void lock_mutex();
