@@ -41,3 +41,17 @@ void unlock_mutex();
 // malloc.c
 void *_malloc(size_t size);
 void *malloc(size_t size);
+
+// free.c
+void _free(void *ptr);
+void free(void *ptr);
+
+// realloc.c
+void *_realloc(void *ptr, size_t size);
+void *realloc(void *ptr, size_t size);
+
+// calloc.c
+void *_calloc(size_t nmemb, size_t size);
+void *calloc(size_t nmemb, size_t size);
+
+// reallocarray.c

@@ -1,16 +1,16 @@
 #include "../include/malloc.h"
 
 void *_malloc(size_t size) {
-  (void)g_mmap;
-  (void)size;
-  ft_printf("addr g_mmap %p\n", g_mmap);
+  // TODO: ask for size bytes of memory
   return NULL;
 }
 
 void *malloc(size_t size) {
+  if (size == 0)
+    return NULL;
   lock_mutex();
   // TODO: rsyslog()
-  char *res = _malloc(size);
+  void *res = _malloc(size);
   unlock_mutex();
   return res;
 }
