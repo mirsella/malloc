@@ -55,3 +55,4 @@ void *_calloc(size_t nmemb, size_t size);
 void *calloc(size_t nmemb, size_t size);
 
 // reallocarray.c
+void *reallocarray(void *ptr, size_t nmemb, size_t size);
