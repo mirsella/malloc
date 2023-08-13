@@ -10,6 +10,7 @@ void *reallocarray(void *ptr, size_t nmemb, size_t size) {
     return NULL;
   lock_mutex();
   // TODO: rsyslog()
-  return _realloc(ptr, nmemb * size);
+  void *res = _realloc(ptr, nmemb * size);
   unlock_mutex();
+  return res;
 }

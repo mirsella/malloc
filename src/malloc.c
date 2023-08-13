@@ -26,7 +26,7 @@ void *_malloc(size_t size) {
 }
 
 void *malloc(size_t size) {
-  ft_putstr("calling ft_malloc");
+  ft_putstr("calling ft_malloc\n");
   if (size == 0)
     return NULL;
   lock_mutex();

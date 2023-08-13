@@ -32,13 +32,14 @@ fclean: clean
 
 ffclean: fclean
 	make -C libft fclean
+	rm -f test
 
 re: fclean all
 
 rere: ffclean all
 
 test: $(NAME)
-	cc -o test test.c -L. -lft_malloc -Wl,-rpath=.
+	$(CC) $(CFLAGS) -o test test.c -L. -lft_malloc -Wl,-rpath=.
 
 $(LIBFT):
 	make -C libft
