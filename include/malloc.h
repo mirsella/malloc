@@ -8,13 +8,13 @@
 #include "unistd.h"
 #include <stdbool.h>
 
-#define MMAP_SHIFT(start) (start + sizeof(t_mmap))
-#define ALLOC_SHIFT(start) (start + sizeof(t_alloc))
+#define MMAP_SHIFT(mmap) ((void *)mmap + sizeof(t_mmap))
+#define ALLOC_SHIFT(alloc) ((void *)alloc + sizeof(t_alloc))
 
-#define TINY_MMAP_SIZE 4 * getpagesize()
-#define TINY_ALLOC_SIZE 128
-#define SMALL_MMAP_SIZE 32 * getpagesize()
-#define SMALL_ALLOC_SIZE 2048
+#define TINY_MMAP_SIZE (4 * getpagesize())
+#define TINY_ALLOC_SIZE (128)
+#define SMALL_MMAP_SIZE (32 * getpagesize())
+#define SMALL_ALLOC_SIZE (2048)
 
 typedef enum e_type { TINY, SMALL, LARGE } t_type;
 
@@ -62,8 +62,9 @@ void *reallocarray(void *ptr, size_t nmemb, size_t size);
 // alloc.c
 size_t get_alloc_size(size_t size);
 void *find_alloc(size_t size);
-t_alloc *init_new_alloc(t_mmap *mmap, void *ptr, size_t size);
+t_alloc *new_alloc(t_mmap *mmap, void *ptr, size_t size);
 
 // mmap.c
 size_t get_mmap_size(size_t size);
 t_type get_mmap_type(size_t size);
+t_mmap *new_mmap(size_t size);

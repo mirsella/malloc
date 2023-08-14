@@ -1,11 +1,30 @@
 #include "../include/malloc.h"
 
 void *_realloc(void *ptr, size_t size) {
-  // TODO: try to shrink or extend the block pointed to by ptr to size
-  // TODO: if not possible, _malloc size
-  // copy data to new location. free old one.
-  (void)ptr;
-  (void)size;
+  if (!ptr || !size)
+    return NULL;
+  t_alloc *alloc = ptr - sizeof(t_alloc);
+  t_mmap *map = alloc->parent;
+
+  // reduce space
+  if (alloc->size >= size) {
+    alloc->size = size;
+    return ptr;
+  }
+
+  // find bigger space
+  if (alloc->next && (size_t)alloc->next - (size_t)ptr >= size) {
+    alloc->size = size;
+    return ptr;
+  } else if (!alloc->next &&
+             (size_t)MMAP_SHIFT(map) + map->size - (size_t)ptr >= size) {
+    alloc->size = size;
+    return ptr;
+  } else {
+    void *new = _malloc(size);
+    ft_memcpy(new, ALLOC_SHIFT(alloc), alloc->size);
+    _free(ptr);
+  }
   return NULL;
 }
 
