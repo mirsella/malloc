@@ -4,6 +4,8 @@ t_alloc *new_alloc(t_mmap *mmap, void *ptr, size_t size) {
   t_alloc *alloc = ptr;
   alloc->size = size;
   alloc->parent = mmap;
+  /* ft_printf("creating new alloc at %p. should return %p\n", ptr, */
+  /* ALLOC_SHIFT(ptr)); */
   alloc->next = NULL;
   alloc->prev = NULL;
 
@@ -29,7 +31,7 @@ t_alloc *new_alloc(t_mmap *mmap, void *ptr, size_t size) {
   return alloc;
 }
 
-void *find_alloc(size_t size) {
+t_alloc *find_alloc(size_t size) {
   if (!g_mmap)
     return NULL;
   for (t_mmap *mmap = g_mmap; mmap; mmap = mmap->next) {
@@ -38,27 +40,21 @@ void *find_alloc(size_t size) {
 
     // in case it's the first allocation of a mmap
     if (!mmap->alloc)
-      return ALLOC_SHIFT(new_alloc(mmap, MMAP_SHIFT(mmap), size));
+      return new_alloc(mmap, MMAP_SHIFT(mmap), size);
 
     t_alloc *alloc = mmap->alloc;
     void *ptr = MMAP_SHIFT(mmap);
     while (alloc) { // seach for space between allocated spaces
-      if (ptr < (void *)alloc) {
-        if ((void *)((void *)alloc - ptr) >= ALLOC_SHIFT(size)) {
-          t_alloc *new = new_alloc(mmap, ptr, size);
-          return ALLOC_SHIFT(new);
-        } else {
-          ptr = ALLOC_SHIFT(alloc) + alloc->size;
-        }
-        alloc = alloc->next;
-      }
+      size_t space = (void *)alloc - ptr;
+      if (ptr < (void *)alloc && space >= (size_t)ALLOC_SHIFT(size))
+        return new_alloc(mmap, ptr, size);
+
+      ptr = ALLOC_SHIFT(alloc) + alloc->size;
+      alloc = alloc->next;
     }
     // allocated space after the last allocated space
-    if ((void *)((void *)MMAP_SHIFT(mmap) + mmap->size - ptr) >=
-        ALLOC_SHIFT(size)) {
-      t_alloc *new = new_alloc(mmap, ptr, size);
-      return ALLOC_SHIFT(new);
-    }
+    if ((void *)(MMAP_SHIFT(mmap) + mmap->size - ptr) >= ALLOC_SHIFT(size))
+      return new_alloc(mmap, ptr, size);
   }
   return NULL;
 }

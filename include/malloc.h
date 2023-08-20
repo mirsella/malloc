@@ -61,7 +61,7 @@ void *reallocarray(void *ptr, size_t nmemb, size_t size);
 
 // alloc.c
 size_t get_alloc_size(size_t size);
-void *find_alloc(size_t size);
+t_alloc *find_alloc(size_t size);
 t_alloc *new_alloc(t_mmap *mmap, void *ptr, size_t size);
 
 // mmap.c
