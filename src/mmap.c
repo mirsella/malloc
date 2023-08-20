@@ -38,6 +38,8 @@ t_mmap *new_mmap(size_t size) {
       tmp->prev = map;
       if (map->prev)
         map->prev->next = map;
+      if (g_mmap == tmp)
+        g_mmap = map;
     } else if (map > tmp && (map < tmp->next || !tmp->next)) {
       map->prev = tmp;
       map->next = tmp->next;

@@ -16,6 +16,8 @@ t_alloc *new_alloc(t_mmap *mmap, void *ptr, size_t size) {
       tmp->prev = alloc;
       if (alloc->prev)
         alloc->prev->next = alloc;
+      if (mmap->alloc == tmp)
+        mmap->alloc = alloc;
     } else if (alloc > tmp && (alloc < tmp->next || !tmp->next)) {
       alloc->next = tmp->next;
       alloc->prev = tmp;
