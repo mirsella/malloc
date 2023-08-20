@@ -6,6 +6,10 @@ int main(void) {
   int len = 100;
   char *a = malloc(len);
   ft_printf("a(%p)\n", a);
+  free(malloc(100));
+  free(a);
+  a = malloc(len);
+  ft_printf("a(%p)\n", a);
   ft_bzero(a, len);
 
   len = 4000;
