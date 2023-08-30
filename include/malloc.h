@@ -68,3 +68,6 @@ t_alloc *new_alloc(t_mmap *mmap, void *ptr, size_t size);
 size_t get_mmap_size(size_t size);
 t_type get_mmap_type(size_t size);
 t_mmap *new_mmap(size_t size);
+
+// show_alloc_mem.c
+void show_alloc_mem();

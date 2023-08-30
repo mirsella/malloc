@@ -1,17 +1,17 @@
 #include "../include/malloc.h"
 
 size_t get_mmap_size(size_t size) {
-  if (size < TINY_ALLOC_SIZE)
+  if (size <= TINY_ALLOC_SIZE)
     return TINY_MMAP_SIZE;
-  if (size < SMALL_ALLOC_SIZE)
+  if (size <= SMALL_ALLOC_SIZE)
     return SMALL_MMAP_SIZE;
   return size + sizeof(t_alloc);
 }
 
 t_type get_mmap_type(size_t size) {
-  if (size < TINY_ALLOC_SIZE)
+  if (size <= TINY_ALLOC_SIZE)
     return TINY;
-  if (size < SMALL_ALLOC_SIZE)
+  if (size <= SMALL_ALLOC_SIZE)
     return SMALL;
   return LARGE;
 }
