@@ -27,10 +27,8 @@ t_mmap *new_mmap(size_t size) {
   map->next = NULL;
   map->prev = NULL;
   map->alloc = NULL;
-  if (!g_mmap) {
-    g_mmap = map;
-    return map;
-  }
+  if (!g_mmap)
+    return g_mmap = map;
   for (t_mmap *tmp = g_mmap; tmp; tmp = tmp->next) {
     if (map < tmp) {
       map->prev = tmp->prev;
@@ -40,12 +38,14 @@ t_mmap *new_mmap(size_t size) {
         map->prev->next = map;
       if (g_mmap == tmp)
         g_mmap = map;
+      break;
     } else if (map > tmp && (map < tmp->next || !tmp->next)) {
       map->prev = tmp;
       map->next = tmp->next;
       tmp->next = map;
       if (map->next)
         map->next->prev = map;
+      break;
     }
   }
   return map;

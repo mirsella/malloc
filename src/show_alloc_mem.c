@@ -19,6 +19,11 @@ void show_alloc_mem() {
     for (t_alloc *alloc = mmap->alloc; alloc; alloc = alloc->next) {
       ft_printf("%p - %p : %d bytes\n", ALLOC_SHIFT(alloc),
                 ALLOC_SHIFT(alloc) + alloc->size, alloc->size);
+      if (alloc->next == alloc) {
+        ft_printf("detected infinite loop on alloc at %p\n",
+                  ALLOC_SHIFT(alloc));
+        break;
+      }
       total += alloc->size;
     }
   }

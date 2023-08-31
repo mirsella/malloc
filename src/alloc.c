@@ -20,12 +20,14 @@ t_alloc *new_alloc(t_mmap *mmap, void *ptr, size_t size) {
         alloc->prev->next = alloc;
       if (mmap->alloc == tmp)
         mmap->alloc = alloc;
+      break;
     } else if (alloc > tmp && (alloc < tmp->next || !tmp->next)) {
       alloc->next = tmp->next;
       alloc->prev = tmp;
       tmp->next = alloc;
       if (alloc->next)
         alloc->next->prev = alloc;
+      break;
     }
   }
   return alloc;

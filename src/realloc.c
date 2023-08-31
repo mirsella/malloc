@@ -24,20 +24,22 @@ void *_realloc(void *ptr, size_t size) {
     void *new = _malloc(size);
     ft_memcpy(new, ALLOC_SHIFT(alloc), alloc->size);
     _free(ptr);
+    return new;
   }
   return NULL;
 }
 
 void *realloc(void *ptr, size_t size) {
-
+  ft_printf("realloc(%d) on %p\n", size, ptr);
   lock_mutex();
   // TODO: rsyslog()
   void *res = NULL;
   if (!ptr)
     res = _malloc(size);
-  else if (!size && ptr)
+  else if (!size && ptr) {
     _free(ptr);
-  else
+    ptr = NULL;
+  } else
     res = _realloc(ptr, size);
   unlock_mutex();
   return res;

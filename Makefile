@@ -7,8 +7,8 @@ CFLAGS = -Wall -Wextra -Werror -MMD -fPIC -pthread
 
 HOSTNAME := $(shell hostname)
 
-ifneq (,$(filter $(HOSTNAME),laptop main)) # if HOSTNAME is laptop or main add -g3
-CFLAGS += -g3
+ifdef DEV
+    CFLAGS += -g3
 endif
 
 ifeq ($(HOSTTYPE),)
@@ -40,6 +40,7 @@ rere: ffclean all
 
 test: $(NAME)
 	$(CC) $(CFLAGS) -o test test.c -L. -lft_malloc -Wl,-rpath=.
+	$(CC) $(CFLAGS) -o gpttest gpttest.c -L. -lft_malloc -Wl,-rpath=.
 
 $(LIBFT):
 	make -C libft

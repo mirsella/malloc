@@ -1,6 +1,7 @@
 #include "../include/malloc.h"
 
 void *reallocarray(void *ptr, size_t nmemb, size_t size) {
+  ft_printf("reallocarray(%d)\n", size);
   size_t overflow = nmemb * size;
   if (size && overflow / size != nmemb) {
     // TODO: rsyslog() detected overflow

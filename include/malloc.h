@@ -71,3 +71,4 @@ t_mmap *new_mmap(size_t size);
 
 // show_alloc_mem.c
 void show_alloc_mem();
+char *get_type_string(t_type type);
