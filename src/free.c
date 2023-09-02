@@ -9,7 +9,11 @@ t_alloc *find_alloc_ptr(void *ptr) {
     for (t_alloc *alloc = mmap->alloc; alloc; alloc = alloc->next) {
       if (ptr > ALLOC_SHIFT(alloc) + alloc->size)
         continue;
-      return alloc;
+      if (ptr < (void *)alloc)
+        return NULL;
+      if (ptr < ALLOC_SHIFT(alloc) + alloc->size && ptr >= ALLOC_SHIFT(alloc))
+        return alloc;
+      return NULL;
     }
   }
   return NULL;
@@ -22,6 +26,11 @@ void _free(void *ptr) {
     return;
   /* t_alloc *alloc = ptr - sizeof(t_alloc); */
   t_alloc *alloc = find_alloc_ptr(ptr);
+  if (!alloc) {
+    ft_printf("tryed free(%p) but it's not an alloc\n", ptr);
+    return;
+  }
+  ft_printf("free: (%p)->size %d\n", ptr, alloc->size);
   if (alloc->prev)
     alloc->prev->next = alloc->next;
   if (alloc->next)
@@ -44,8 +53,6 @@ void _free(void *ptr) {
 void free(void *ptr) {
   if (!ptr)
     return;
-  ft_printf("free: (%p)->size: %d\n", ptr,
-            ((t_alloc *)(ptr - sizeof(t_alloc)))->size);
   lock_mutex();
   // TODO: rsyslog()
   _free(ptr);

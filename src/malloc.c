@@ -11,8 +11,10 @@ void *_malloc(size_t size) {
 
 void *malloc(size_t size) {
   ft_printf("malloc(%d)", size);
-  /* if (size == 0) */
-  /*   return NULL; */
+  /* if (!size) */
+  /*   size = 1; */
+  if (size == 0)
+    return NULL;
   lock_mutex();
   // TODO: rsyslog()
   void *res = _malloc(size);

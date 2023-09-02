@@ -6,6 +6,7 @@
 #include "stdlib.h"
 #include "sys/mman.h"
 #include "unistd.h"
+#include <errno.h>
 #include <stdbool.h>
 
 #define MMAP_SHIFT(mmap) ((void *)mmap + sizeof(t_mmap))
