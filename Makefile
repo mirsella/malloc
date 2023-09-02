@@ -25,7 +25,7 @@ $(NAME): $(LIBFT) $(OBJS)
 	ln -sf $(NAME) libft_malloc.so
 
 clean:
-	rm -f $(OBJS)
+	rm -f $(OBJS) $(DEPS)
 
 fclean: clean
 	rm -f $(NAME)
