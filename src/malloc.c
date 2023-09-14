@@ -20,5 +20,6 @@ void *malloc(size_t size) {
   void *res = _malloc(size);
   unlock_mutex();
   ft_printf(" -> %p\n", res);
+  show_alloc_mem();
   return res;
 }

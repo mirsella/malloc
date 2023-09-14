@@ -30,7 +30,7 @@ void *_realloc(void *ptr, size_t size) {
 }
 
 void *realloc(void *ptr, size_t size) {
-  ft_printf("realloc(%d) on %p\n", size, ptr);
+  ft_printf("realloc(%d) on %p", size, ptr);
   lock_mutex();
   // TODO: rsyslog()
   void *res = NULL;
@@ -38,9 +38,10 @@ void *realloc(void *ptr, size_t size) {
     res = _malloc(size);
   else if (!size && ptr) {
     _free(ptr);
-    ptr = NULL;
+    res = NULL;
   } else
     res = _realloc(ptr, size);
   unlock_mutex();
+  ft_printf(" -> %p\n", res);
   return res;
 }
