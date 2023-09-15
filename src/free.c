@@ -51,6 +51,7 @@ void _free(void *ptr) {
 }
 
 void free(void *ptr) {
+  ft_printf("free(%p)\n", ptr);
   if (!ptr)
     return;
   lock_mutex();

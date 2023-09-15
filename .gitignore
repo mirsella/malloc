@@ -1,6 +1,7 @@
 ### C
 libft_malloc*
 test
+gpttest
 # Prerequisites
 *.d
 
