@@ -39,8 +39,8 @@ re: fclean all
 rere: ffclean all
 
 test: $(NAME)
-	$(CC) $(CFLAGS) -o test test.c -L. -lft_malloc -Wl,-rpath=.
-	$(CC) $(CFLAGS) -o gpttest gpttest.c -L. -lft_malloc -Wl,-rpath=.
+	$(CC) $(CFLAGS) -O0 -o test test.c -L. -lft_malloc -Wl,-rpath=.
+	$(CC) $(CFLAGS) -O0 -o gpttest gpttest.c -L. -lft_malloc -Wl,-rpath=.
 
 $(LIBFT):
 	make -C libft

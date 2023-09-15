@@ -31,13 +31,14 @@ void *_realloc(void *ptr, size_t size) {
 
 void *realloc(void *ptr, size_t size) {
   ft_printf("realloc(%d) on %p", size, ptr);
-  lock_mutex();
   // TODO: rsyslog()
+  lock_mutex();
   void *res = NULL;
   if (!ptr)
     res = _malloc(size);
   else if (!size && ptr) {
     _free(ptr);
+    // TODO: should remove this is useless
     res = NULL;
   } else
     res = _realloc(ptr, size);

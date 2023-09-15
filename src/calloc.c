@@ -2,22 +2,19 @@
 
 void *calloc(size_t nmemb, size_t size) {
   ft_printf("calloc(%d)", size);
-  /* size_t overflow = nmemb * size; */
-  /* if (size && overflow / size != nmemb) { */
-  /*   // TODO: rsyslog() detected overflow */
-  /*   return NULL; */
-  /* } */
+  size_t overflow = nmemb * size;
+  if (size && overflow / size != nmemb) {
+    ft_printf("OVERFLOW\n");
+    // TODO: rsyslog() detected overflow
+    return NULL;
+  }
 
-  /* if (nmemb * size == 0) */
-  /*   return NULL; */
-
-  lock_mutex();
-  // TODO: rsyslog()
-  void *res;
   if (nmemb * size == 0)
-    res = _malloc(1);
-  else
-    res = _malloc(nmemb * size);
+    return NULL;
+
+  // TODO: rsyslog()
+  lock_mutex();
+  void *res = _malloc(nmemb * size);
   unlock_mutex();
   ft_bzero(res, nmemb * size);
   ft_printf(" -> %p\n", res);

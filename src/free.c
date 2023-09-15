@@ -24,13 +24,12 @@ void _free(void *ptr) {
     return;
   if (!g_mmap)
     return;
-  /* t_alloc *alloc = ptr - sizeof(t_alloc); */
-  t_alloc *alloc = find_alloc_ptr(ptr);
+  t_alloc *alloc = ptr - sizeof(t_alloc);
+  /* t_alloc *alloc = find_alloc_ptr(ptr); */
   if (!alloc) {
-    ft_printf("tryed free(%p) but it's not an alloc\n", ptr);
+    ft_printf("tryed _free(%p) but it's not an alloc\n", ptr);
     return;
   }
-  ft_printf("free: (%p)->size %d\n", ptr, alloc->size);
   if (alloc->prev)
     alloc->prev->next = alloc->next;
   if (alloc->next)
@@ -54,8 +53,8 @@ void free(void *ptr) {
   ft_printf("free(%p)\n", ptr);
   if (!ptr)
     return;
-  lock_mutex();
   // TODO: rsyslog()
+  lock_mutex();
   _free(ptr);
   unlock_mutex();
 }

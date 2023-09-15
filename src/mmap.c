@@ -2,10 +2,10 @@
 
 size_t get_mmap_size(size_t size) {
   if (size <= TINY_ALLOC_SIZE)
-    return TINY_MMAP_SIZE;
+    return TINY_MMAP_SIZE + ALIGNMENT;
   if (size <= SMALL_ALLOC_SIZE)
-    return SMALL_MMAP_SIZE;
-  return size + sizeof(t_alloc);
+    return SMALL_MMAP_SIZE + ALIGNMENT;
+  return size + sizeof(t_alloc) + ALIGNMENT;
 }
 
 t_type get_mmap_type(size_t size) {
@@ -17,9 +17,8 @@ t_type get_mmap_type(size_t size) {
 }
 
 t_mmap *new_mmap(size_t size) {
-  t_mmap *map =
-      mmap(NULL, get_mmap_size(size) + sizeof(t_mmap), PROT_READ | PROT_WRITE,
-           MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+  t_mmap *map = mmap(NULL, get_mmap_size(size) + sizeof(t_mmap),
+                     PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, 0, 0);
   if (!map) {
     errno = ENOMEM;
     return NULL;

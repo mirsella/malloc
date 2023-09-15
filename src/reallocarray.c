@@ -11,9 +11,9 @@ void *reallocarray(void *ptr, size_t nmemb, size_t size) {
   }
   if (nmemb * size == 0)
     return NULL;
-  lock_mutex();
   // TODO: rsyslog()
   void *res;
+  lock_mutex();
   if (!ptr)
     res = _malloc(size * nmemb);
   else if ((size * nmemb) == 0 && ptr) {

@@ -12,6 +12,7 @@
 #define MMAP_SHIFT(mmap) ((void *)mmap + sizeof(t_mmap))
 #define ALLOC_SHIFT(alloc) ((void *)alloc + sizeof(t_alloc))
 
+#define ALIGNMENT 16
 #define TINY_MMAP_SIZE (4 * getpagesize())
 #define TINY_ALLOC_SIZE (128)
 #define SMALL_MMAP_SIZE (32 * getpagesize())

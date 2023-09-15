@@ -2,6 +2,8 @@
 libft_malloc*
 test
 gpttest
+a.out
+tester
 # Prerequisites
 *.d
 
