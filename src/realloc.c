@@ -31,7 +31,7 @@ void *_realloc(void *ptr, size_t size) {
 
 void *realloc(void *ptr, size_t size) {
   ft_printf("realloc(%d) on %p", size, ptr);
-  // TODO: rsyslog()
+  //  TODO: rsyslog()
   lock_mutex();
   void *res = NULL;
   if (!ptr)

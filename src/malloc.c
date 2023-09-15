@@ -6,15 +6,16 @@ void *_malloc(size_t size) {
     return ALLOC_SHIFT(res);
   new_mmap(size);
   res = find_alloc(size);
-  if (!res)
-    ft_printf("NO SPACE FOUND ON NEW MMAP\n");
   return ALLOC_SHIFT(res);
 }
 
 void *malloc(size_t size) {
   ft_printf("malloc(%d)", size);
   if (!size)
+    /* size = 1; */
     return NULL;
+  while (size % ALIGNMENT != 0)
+    size++;
   // TODO: rsyslog()
   lock_mutex();
   void *res = _malloc(size);

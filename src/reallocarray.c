@@ -10,7 +10,8 @@ void *reallocarray(void *ptr, size_t nmemb, size_t size) {
     return NULL;
   }
   if (nmemb * size == 0)
-    return NULL;
+    size = 1;
+  /* return NULL; */
   // TODO: rsyslog()
   void *res;
   lock_mutex();
