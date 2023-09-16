@@ -1,33 +1,15 @@
 #include "../include/malloc.h"
 
-// alternative method to find alloc even if the ptr is in the middle of the
-// alloc
-t_alloc *find_alloc_ptr(void *ptr) {
-  for (t_mmap *mmap = g_mmap; mmap; mmap = mmap->next) {
-    if (ptr < (void *)mmap || ptr > MMAP_SHIFT(mmap) + mmap->size)
-      continue;
-    for (t_alloc *alloc = mmap->alloc; alloc; alloc = alloc->next) {
-      if (ptr > ALLOC_SHIFT(alloc) + alloc->size)
-        continue;
-      if (ptr < (void *)alloc)
-        return NULL;
-      if (ptr < ALLOC_SHIFT(alloc) + alloc->size && ptr >= ALLOC_SHIFT(alloc))
-        return alloc;
-      return NULL;
-    }
-  }
-  return NULL;
-}
-
 void _free(void *ptr) {
   if (!ptr)
     return;
   if (!g_mmap)
     return;
-  t_alloc *alloc = ptr - sizeof(t_alloc);
-  /* t_alloc *alloc = find_alloc_ptr(ptr); */
+  /* t_alloc *alloc = ptr - sizeof(t_alloc); */
+  t_alloc *alloc = find_alloc_ptr(ptr);
   if (!alloc) {
-    ft_printf("tryed _free(%p) but it's not an alloc\n", ptr);
+    // ft_printf("tryed _free(%p) but it's not an alloc\n", ptr);
+    // TODO: rsyslog()
     return;
   }
   if (alloc->prev)
@@ -50,7 +32,7 @@ void _free(void *ptr) {
 }
 
 void free(void *ptr) {
-  ft_printf("free(%p)\n", ptr);
+  // ft_printf("free(%p)\n", ptr);
   if (!ptr)
     return;
   // TODO: rsyslog()

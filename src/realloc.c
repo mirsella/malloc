@@ -3,23 +3,28 @@
 void *_realloc(void *ptr, size_t size) {
   if (!ptr || !size)
     return NULL;
-  t_alloc *alloc = ptr - sizeof(t_alloc);
+  /* t_alloc *alloc = ptr - sizeof(t_alloc); */
+  t_alloc *alloc = find_alloc_ptr(ptr);
+  if (!alloc) {
+    // TODO: rsyslog() gave non-malloced ptr
+    return NULL;
+  }
   t_mmap *map = alloc->parent;
 
   // reduce space
   if (alloc->size >= size) {
     alloc->size = size;
-    return ptr;
+    return ALLOC_SHIFT(alloc);
   }
 
   // find bigger space
   if (alloc->next && (size_t)alloc->next - (size_t)ptr >= size) {
     alloc->size = size;
-    return ptr;
+    return ALLOC_SHIFT(alloc);
   } else if (!alloc->next &&
              (size_t)MMAP_SHIFT(map) + map->size - (size_t)ptr >= size) {
     alloc->size = size;
-    return ptr;
+    return ALLOC_SHIFT(alloc);
   } else {
     void *new = _malloc(size);
     ft_memcpy(new, ALLOC_SHIFT(alloc), alloc->size);
@@ -30,19 +35,19 @@ void *_realloc(void *ptr, size_t size) {
 }
 
 void *realloc(void *ptr, size_t size) {
-  ft_printf("realloc(%d) on %p", size, ptr);
-  //  TODO: rsyslog()
+  /* ft_printf("realloc(%d) on %p", size, ptr); */
+  //   TODO: rsyslog()
+  while (size % ALIGNMENT != 0)
+    size++;
   lock_mutex();
   void *res = NULL;
   if (!ptr)
     res = _malloc(size);
-  else if (!size && ptr) {
+  else if (!size && ptr)
     _free(ptr);
-    // TODO: should remove this is useless
-    res = NULL;
-  } else
+  else
     res = _realloc(ptr, size);
   unlock_mutex();
-  ft_printf(" -> %p\n", res);
+  /* ft_printf(" -> %p\n", res); */
   return res;
 }

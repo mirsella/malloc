@@ -62,6 +62,7 @@ void *calloc(size_t nmemb, size_t size);
 void *reallocarray(void *ptr, size_t nmemb, size_t size);
 
 // alloc.c
+t_alloc *find_alloc_ptr(void *ptr);
 size_t get_alloc_size(size_t size);
 t_alloc *find_alloc(size_t size);
 t_alloc *new_alloc(t_mmap *mmap, void *ptr, size_t size);
@@ -73,4 +74,5 @@ t_mmap *new_mmap(size_t size);
 
 // show_alloc_mem.c
 void show_alloc_mem();
+void show_alloc_mem_ex();
 char *get_type_string(t_type type);
