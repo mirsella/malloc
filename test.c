@@ -29,22 +29,11 @@ int main(void) {
   /* char *c = malloc(len); */
   /* ft_printf("c(%p)\n", c); */
   /* ft_bzero(c, len); */
-
-  ft_printf("allocating 5000 times\n");
-  for (int i = 1; i < 50000; i += 3) {
-    char *d = malloc(i);
-    /* d = realloc(d, i); */
-    /* d = realloc(d, i - 1); */
-    /* d = realloc(d, i + 1); */
-    ((void)d);
-    ft_bzero(d, i);
-    bzero(d, i);
-    ft_memset(d, 'a', i);
-    memset(d, 'b', i);
-    free(d);
-  }
-
+  /**/
   ft_putchar('\n');
-  show_alloc_mem();
+
+  char *a = malloc(10);
+  ft_memset(a, 'a', 10);
+  show_alloc_mem_ex();
   return EXIT_SUCCESS;
 }

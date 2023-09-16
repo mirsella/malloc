@@ -46,10 +46,10 @@ void show_alloc_mem_ex() {
         continue;
       ft_printf("%p - %p : %d bytes\n", ALLOC_SHIFT(alloc),
                 ALLOC_SHIFT(alloc) + alloc->size, alloc->size);
-      size_t size =
-          ft_memchr(ALLOC_SHIFT(alloc), 0, alloc->size) - ALLOC_SHIFT(alloc);
-      /* write(1, ALLOC_SHIFT(alloc), alloc->size); */
-      ft_printf("%x\n", ALLOC_SHIFT(alloc));
+      /* size_t size = */
+      /*     ft_memchr(ALLOC_SHIFT(alloc), 0, alloc->size) - ALLOC_SHIFT(alloc);
+       */
+      // TODO: hexdump the alloc
       if (alloc->next == alloc) {
         ft_printf("detected infinite loop on alloc at %p\n",
                   ALLOC_SHIFT(alloc));
