@@ -28,7 +28,7 @@ clean:
 	rm -f $(OBJS) $(DEPS)
 
 fclean: clean
-	rm -f $(NAME)
+	rm -f $(NAME) libft_malloc.so
 
 ffclean: fclean
 	make -C libft fclean
@@ -40,7 +40,6 @@ rere: ffclean all
 
 test: $(NAME)
 	$(CC) $(CFLAGS) -O0 -o test test.c -L. -lft_malloc -Wl,-rpath=.
-	$(CC) $(CFLAGS) -O0 -o gpttest gpttest.c -L. -lft_malloc -Wl,-rpath=.
 
 $(LIBFT):
 	make -C libft

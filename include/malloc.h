@@ -12,11 +12,11 @@
 #define MMAP_SHIFT(mmap) ((void *)mmap + sizeof(t_mmap))
 #define ALLOC_SHIFT(alloc) ((void *)alloc + sizeof(t_alloc))
 
-#define ALIGNMENT 16
+#define ALIGNMENT 16 // 8 on 32 bits, 16 on 64 bits
 #define TINY_MMAP_SIZE (4 * getpagesize())
 #define TINY_ALLOC_SIZE (128)
 #define SMALL_MMAP_SIZE (32 * getpagesize())
-#define SMALL_ALLOC_SIZE (2048)
+#define SMALL_ALLOC_SIZE (4096)
 
 typedef enum e_type { TINY, SMALL, LARGE } t_type;
 
@@ -74,5 +74,6 @@ t_mmap *new_mmap(size_t size);
 
 // show_alloc_mem.c
 void show_alloc_mem();
-void show_alloc_mem_ex();
+void show_alloc_mem_asciidump();
+void show_alloc_mem_hexdump();
 char *get_type_string(t_type type);
