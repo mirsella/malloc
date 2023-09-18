@@ -8,6 +8,7 @@
 #include "unistd.h"
 #include <errno.h>
 #include <stdbool.h>
+#include <syslog.h>
 
 #define MMAP_SHIFT(mmap) ((void *)mmap + sizeof(t_mmap))
 #define ALLOC_SHIFT(alloc) ((void *)alloc + sizeof(t_alloc))
@@ -77,3 +78,4 @@ void show_alloc_mem();
 void show_alloc_mem_asciidump();
 void show_alloc_mem_hexdump();
 char *get_type_string(t_type type);
+void log(int priority, char *title, size_t size);
