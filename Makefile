@@ -25,21 +25,20 @@ $(NAME): $(LIBFT) $(OBJS)
 	ln -sf $(NAME) libft_malloc.so
 
 clean:
-	rm -f $(OBJS) $(DEPS)
+	rm -f $(OBJS) $(DEPS) test.d
 
 fclean: clean
-	rm -f $(NAME) libft_malloc.so
+	rm -f $(NAME) libft_malloc.so test
 
 ffclean: fclean
 	make -C libft fclean
-	rm -f test
 
 re: fclean all
 
 rere: ffclean all
 
 test: $(NAME)
-	$(CC) $(CFLAGS) -O0 -o test test.c -L. -lft_malloc -Wl,-rpath=.
+	$(CC) -g3 -Werror -Wall -Wextra -MMD -O0 -o test test.c -L. -lft_malloc -Wl,-rpath=.
 
 $(LIBFT):
 	make -C libft

@@ -1,4 +1,5 @@
 #include "include/malloc.h"
+#include "libft/libft.h"
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -6,7 +7,9 @@
 
 int main() {
   // 1. Basic functionality tests
+  ft_printf("callcing malloc 20\n");
   char *str = (char *)malloc(20);
+  ft_printf("after callcing malloc 20\n");
   assert(str != NULL);
   strcpy(str, "42helloworld");
   assert(strcmp(str, "42helloworld") == 0);
@@ -59,6 +62,22 @@ int main() {
   edge2 = realloc(edge2, 0); // This should behave as free
   assert(edge2 == NULL);
 
-  printf("All tests passed!\n");
+  ft_printf("All tests passed!\n");
+
+  void *a = malloc(10);
+  ft_memcpy(a, "0123456789", 10);
+  void *b = malloc(4000);
+  ft_memset(b, 'i', 4000);
+  void *c = malloc(1000);
+  ft_memset(c, 'a', 1000);
+  ft_putchar('\n');
+  show_alloc_mem();
+  ft_putchar('\n');
+  show_alloc_mem_hexdump();
+  ft_putchar('\n');
+  show_alloc_mem_asciidump();
+  free(a);
+  free(b);
+  free(c);
   return EXIT_SUCCESS;
 }

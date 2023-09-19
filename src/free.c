@@ -8,8 +8,7 @@ void _free(void *ptr) {
   /* t_alloc *alloc = ptr - sizeof(t_alloc); */
   t_alloc *alloc = find_alloc_ptr(ptr);
   if (!alloc) {
-    // ft_printf("tryed _free(%p) but it's not an alloc\n", ptr);
-    // TODO: rsyslog()
+    dprintf(tmpfd(), "free(%p): invalid pointer\n", ptr);
     return;
   }
   if (alloc->prev)
@@ -32,10 +31,9 @@ void _free(void *ptr) {
 }
 
 void free(void *ptr) {
-  // ft_printf("free(%p)\n", ptr);
+  dprintf(tmpfd(), "free(%p)\n", ptr);
   if (!ptr)
     return;
-  // TODO: rsyslog()
   lock_mutex();
   _free(ptr);
   unlock_mutex();

@@ -10,15 +10,13 @@ void *_malloc(size_t size) {
 }
 
 void *malloc(size_t size) {
-  /* ft_printf("malloc(%d)", size); */
+  dprintf(tmpfd(), "malloc(%zu)\n", size);
   if (!size)
     size = 1;
   while (size % ALIGNMENT != 0)
     size++;
-  // TODO: rsyslog()
   lock_mutex();
   void *res = _malloc(size);
   unlock_mutex();
-  /* ft_printf(" -> %p\n", res); */
   return res;
 }

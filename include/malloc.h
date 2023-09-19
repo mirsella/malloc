@@ -7,8 +7,12 @@
 #include "sys/mman.h"
 #include "unistd.h"
 #include <errno.h>
+#include <fcntl.h>
 #include <stdbool.h>
-#include <syslog.h>
+#include <string.h>
+
+#define LOGGING false
+#define LOGFILE "/tmp/malloc.log"
 
 #define MMAP_SHIFT(mmap) ((void *)mmap + sizeof(t_mmap))
 #define ALLOC_SHIFT(alloc) ((void *)alloc + sizeof(t_alloc))
@@ -39,7 +43,7 @@ typedef struct s_alloc {
 
 extern t_mmap *g_mmap;
 
-// NOTE: mutex.c
+// mutex.c
 void lock_mutex();
 void unlock_mutex();
 
@@ -78,4 +82,6 @@ void show_alloc_mem();
 void show_alloc_mem_asciidump();
 void show_alloc_mem_hexdump();
 char *get_type_string(t_type type);
-void log(int priority, char *title, size_t size);
+
+/* log.c */
+int tmpfd();
