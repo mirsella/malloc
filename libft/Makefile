@@ -8,11 +8,8 @@ OBJS = $(SRCS:.c=.o)
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
-
-
-HOSTNAME := $(shell hostname)
-ifneq (,$(filter $(HOSTNAME),laptop main)) # if HOSTNAME is laptop or main add -g3
-CFLAGS += -g3
+ifdef DEV
+    CFLAGS += -g3
 endif
 
 NAME = libft.a
