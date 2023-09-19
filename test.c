@@ -7,9 +7,7 @@
 
 int main() {
   // 1. Basic functionality tests
-  ft_printf("callcing malloc 20\n");
   char *str = (char *)malloc(20);
-  ft_printf("after callcing malloc 20\n");
   assert(str != NULL);
   strcpy(str, "42helloworld");
   assert(strcmp(str, "42helloworld") == 0);

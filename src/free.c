@@ -8,7 +8,8 @@ void _free(void *ptr) {
   /* t_alloc *alloc = ptr - sizeof(t_alloc); */
   t_alloc *alloc = find_alloc_ptr(ptr);
   if (!alloc) {
-    dprintf(tmpfd(), "free(%p): invalid pointer\n", ptr);
+    if (LOGGING)
+      dprintf(tmpfd(), "free(%p): invalid pointer\n", ptr);
     return;
   }
   if (alloc->prev)
@@ -31,7 +32,8 @@ void _free(void *ptr) {
 }
 
 void free(void *ptr) {
-  dprintf(tmpfd(), "free(%p)\n", ptr);
+  if (LOGGING)
+    dprintf(tmpfd(), "free(%p)\n", ptr);
   if (!ptr)
     return;
   lock_mutex();

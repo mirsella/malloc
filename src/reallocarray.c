@@ -3,8 +3,9 @@
 void *reallocarray(void *ptr, size_t nmemb, size_t size) {
   size_t overflow = nmemb * size;
   if (size && overflow / size != nmemb) {
-    dprintf(tmpfd(), "reallocarray(%p, %zu, %zu): overflow\n", ptr, nmemb,
-            size);
+    if (LOGGING)
+      dprintf(tmpfd(), "reallocarray(%p, %zu, %zu): overflow\n", ptr, nmemb,
+              size);
     errno = ENOMEM;
     return NULL;
   }
@@ -12,7 +13,8 @@ void *reallocarray(void *ptr, size_t nmemb, size_t size) {
     size = 1;
   while (size % ALIGNMENT != 0)
     size++;
-  dprintf(tmpfd(), "reallocarray(%p, %zu, %zu)\n", ptr, nmemb, size);
+  if (LOGGING)
+    dprintf(tmpfd(), "reallocarray(%p, %zu, %zu)\n", ptr, nmemb, size);
   void *res;
   lock_mutex();
   if (!ptr)

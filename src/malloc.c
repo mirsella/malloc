@@ -10,7 +10,8 @@ void *_malloc(size_t size) {
 }
 
 void *malloc(size_t size) {
-  dprintf(tmpfd(), "malloc(%zu)\n", size);
+  if (LOGGING)
+    dprintf(tmpfd(), "malloc(%zu)\n", size);
   if (!size)
     size = 1;
   while (size % ALIGNMENT != 0)

@@ -6,7 +6,8 @@ void *_realloc(void *ptr, size_t size) {
   /* t_alloc *alloc = ptr - sizeof(t_alloc); */
   t_alloc *alloc = find_alloc_ptr(ptr);
   if (!alloc) {
-    dprintf(tmpfd(), "realloc(%p, %zu): invalid pointer\n", ptr, size);
+    if (LOGGING)
+      dprintf(tmpfd(), "realloc(%p, %zu): invalid pointer\n", ptr, size);
     return NULL;
   }
   t_mmap *map = alloc->parent;
@@ -35,7 +36,8 @@ void *_realloc(void *ptr, size_t size) {
 }
 
 void *realloc(void *ptr, size_t size) {
-  dprintf(tmpfd(), "realloc(%p, %zu)\n", ptr, size);
+  if (LOGGING)
+    dprintf(tmpfd(), "realloc(%p, %zu)\n", ptr, size);
   while (size % ALIGNMENT != 0)
     size++;
   lock_mutex();

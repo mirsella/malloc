@@ -3,7 +3,8 @@
 void *calloc(size_t nmemb, size_t size) {
   size_t overflow = nmemb * size;
   if (size && overflow / size != nmemb) {
-    dprintf(tmpfd(), "calloc(%zu, %zu): overflow\n", nmemb, size);
+    if (LOGGING)
+      dprintf(tmpfd(), "calloc(%zu, %zu): overflow\n", nmemb, size);
     return NULL;
   }
 
@@ -11,7 +12,8 @@ void *calloc(size_t nmemb, size_t size) {
     size = 1;
   while (size % ALIGNMENT != 0)
     size++;
-  dprintf(tmpfd(), "calloc(%zu, %zu)\n", nmemb, size);
+  if (LOGGING)
+    dprintf(tmpfd(), "calloc(%zu, %zu)\n", nmemb, size);
   lock_mutex();
   void *res = _malloc(nmemb * size);
   unlock_mutex();
