@@ -12,7 +12,7 @@
 #include <string.h>
 
 // logging implies big pefromance loss
-#define LOGGING false
+#define LOGGING true
 #define LOGFILE "/tmp/malloc.log"
 
 #define MMAP_SHIFT(mmap) ((void *)mmap + sizeof(t_mmap))
@@ -44,9 +44,11 @@ typedef struct s_alloc {
 
 extern t_mmap *g_mmap;
 
-// mutex.c
+// global_init.c
 void lock_mutex();
 void unlock_mutex();
+int tmpfd();
+void flog(char *title, size_t size);
 
 // malloc.c
 void *_malloc(size_t size);
@@ -83,6 +85,3 @@ void show_alloc_mem();
 void show_alloc_mem_asciidump();
 void show_alloc_mem_hexdump();
 char *get_type_string(t_type type);
-
-/* log.c */
-int tmpfd();

@@ -1,4 +1,5 @@
 #include "../include/malloc.h"
+#include <stddef.h>
 
 void _free(void *ptr) {
   if (!ptr)
@@ -8,8 +9,10 @@ void _free(void *ptr) {
   /* t_alloc *alloc = ptr - sizeof(t_alloc); */
   t_alloc *alloc = find_alloc_ptr(ptr);
   if (!alloc) {
-    if (LOGGING)
-      dprintf(tmpfd(), "free(%p): invalid pointer\n", ptr);
+    if (LOGGING) {
+      /* dprintf(tmpfd(), "free(): invalid pointer\n"); */
+      flog("free: invalid pointer", (size_t)ptr);
+    }
     return;
   }
   if (alloc->prev)
@@ -32,8 +35,10 @@ void _free(void *ptr) {
 }
 
 void free(void *ptr) {
-  if (LOGGING)
-    dprintf(tmpfd(), "free(%p)\n", ptr);
+  if (LOGGING) {
+    /* dprintf(tmpfd(), "free()\n"); */
+    flog("free(): ", (size_t)ptr);
+  }
   if (!ptr)
     return;
   lock_mutex();
