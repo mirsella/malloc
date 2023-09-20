@@ -12,7 +12,7 @@
 #include <string.h>
 
 // logging implies big pefromance loss
-#define LOGGING true
+#define LOGGING false
 #define LOGFILE "/tmp/malloc.log"
 
 #define MMAP_SHIFT(mmap) ((void *)mmap + sizeof(t_mmap))
