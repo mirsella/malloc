@@ -13,6 +13,7 @@ void show_alloc_mem() {
   lock_mutex();
   if (!g_mmap) {
     ft_putstr("show_alloc_mem(): No memory allocated\n");
+    unlock_mutex();
     return;
   }
   size_t total = 0;
@@ -31,8 +32,8 @@ void show_alloc_mem() {
       total += alloc->size;
     }
   }
-  ft_printf("Total : %d bytes\n", total);
   unlock_mutex();
+  ft_printf("Total : %d bytes\n", total);
 }
 
 bool is_end(char *str, size_t size) {

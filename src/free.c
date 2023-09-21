@@ -2,9 +2,7 @@
 #include <stddef.h>
 
 void _free(void *ptr) {
-  if (!ptr)
-    return;
-  if (!g_mmap)
+  if (!ptr | !g_mmap)
     return;
   /* t_alloc *alloc = ptr - sizeof(t_alloc); */
   t_alloc *alloc = find_alloc_ptr(ptr);

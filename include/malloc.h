@@ -20,9 +20,11 @@
 
 #define ALIGNMENT 16 // 8 on 32 bits, 16 on 64 bits
 #define TINY_MMAP_SIZE (4 * getpagesize())
+// 4*4096 - 100*(128+32) = 384 free space
 #define TINY_ALLOC_SIZE (128)
 #define SMALL_MMAP_SIZE (32 * getpagesize())
-#define SMALL_ALLOC_SIZE (4096)
+// 4*4096 - 100*(1024+32) = 25472 free space
+#define SMALL_ALLOC_SIZE (1024)
 
 typedef enum e_type { TINY, SMALL, LARGE } t_type;
 

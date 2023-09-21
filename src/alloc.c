@@ -70,18 +70,18 @@ t_alloc *find_alloc(size_t size) {
 
     t_alloc *alloc = mmap->alloc;
     void *ptr = alignp(MMAP_SHIFT(mmap));
+    // + ALIGNMENT because we need to have space to align the alloc
+    size_t needed_space = size + sizeof(t_alloc) + ALIGNMENT;
     while (alloc) { // seach for space between allocated spaces
       size_t space = (void *)alloc - ptr;
-      // size + ALIGNMENT because we need to have space to align the alloc
-      if (ptr < (void *)alloc && space >= (size_t)ALLOC_SHIFT(size + ALIGNMENT))
+      if (ptr < (void *)alloc && space >= needed_space)
         return new_alloc(mmap, ptr, size);
 
       ptr = alignp(ALLOC_SHIFT(alloc) + alloc->size);
       alloc = alloc->next;
     }
     // allocated space after the last allocated space
-    if ((void *)(MMAP_SHIFT(mmap) + mmap->size - ptr) >=
-        ALLOC_SHIFT(size + ALIGNMENT))
+    if ((size_t)(MMAP_SHIFT(mmap) + mmap->size - ptr) >= needed_space)
       return new_alloc(mmap, ptr, size);
   }
   return NULL;
