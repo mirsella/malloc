@@ -26,7 +26,6 @@ int ft_printf(const char *format, ...) {
   int byteswrotes;
   va_list args;
   t_formatoptions fo;
-  fo.fd = STDOUT_FILENO;
 
   i = 0;
   byteswrotes = 0;
@@ -35,6 +34,7 @@ int ft_printf(const char *format, ...) {
     if (format[i] == '%' && format[++i] != '%') {
       ft_bzero(&fo, sizeof(t_formatoptions));
       fo.precision = -1;
+      fo.fd = STDOUT_FILENO;
       i += parse_callprinters(&fo, format + i, args);
       count_bytes(&byteswrotes, fo.byteswrotes);
     } else {
@@ -51,7 +51,6 @@ int ft_dprintf(int fd, const char *format, ...) {
   int byteswrotes;
   va_list args;
   t_formatoptions fo;
-  fo.fd = fd;
 
   i = 0;
   byteswrotes = 0;
@@ -59,11 +58,12 @@ int ft_dprintf(int fd, const char *format, ...) {
   while (format[i]) {
     if (format[i] == '%' && format[++i] != '%') {
       ft_bzero(&fo, sizeof(t_formatoptions));
+      fo.fd = fd;
       fo.precision = -1;
       i += parse_callprinters(&fo, format + i, args);
       count_bytes(&byteswrotes, fo.byteswrotes);
     } else {
-      count_bytes(&byteswrotes, ft_putchar(format[i]));
+      count_bytes(&byteswrotes, ft_putchar_fd(format[i], fd));
       i++;
     }
   }

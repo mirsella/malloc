@@ -2,10 +2,10 @@
 
 size_t get_mmap_size(size_t size) {
   if (size <= TINY_ALLOC_SIZE)
-    return TINY_MMAP_SIZE + ALIGNMENT + 10;
+    return TINY_MMAP_SIZE + ALIGNMENT;
   if (size <= SMALL_ALLOC_SIZE)
-    return SMALL_MMAP_SIZE + ALIGNMENT + 10;
-  return size + sizeof(t_alloc) + ALIGNMENT + 10;
+    return SMALL_MMAP_SIZE + ALIGNMENT;
+  return size + sizeof(t_alloc) + ALIGNMENT;
 }
 
 t_type get_mmap_type(size_t size) {

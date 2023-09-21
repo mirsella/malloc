@@ -11,7 +11,7 @@
 #include <stdbool.h>
 #include <string.h>
 
-// logging implies big pefromance loss
+// logging implies big pefromance hit
 #define LOGGING false
 #define LOGFILE "/tmp/malloc.log"
 

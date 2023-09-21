@@ -31,6 +31,7 @@ void _free(void *ptr) {
       map->next->prev = map->prev;
     if (map == g_mmap)
       g_mmap = map->next;
+    munmap(map, map->size + sizeof(t_mmap));
   }
 }
 
