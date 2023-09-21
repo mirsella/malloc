@@ -4,7 +4,8 @@ void *calloc(size_t nmemb, size_t size) {
   size_t overflow = nmemb * size;
   if (size && overflow / size != nmemb) {
     if (LOGGING) {
-      flog("calloc: integer overflow", nmemb * size);
+      ft_dprintf(tmpfd(), "calloc(%d, %d): overflow\n", nmemb, size);
+      /* flog("calloc: integer overflow", nmemb * size); */
     }
     return NULL;
   }
@@ -14,8 +15,8 @@ void *calloc(size_t nmemb, size_t size) {
   while (size % ALIGNMENT != 0)
     size++;
   if (LOGGING) {
-    /* dprintf(tmpfd(), "calloc(%zu, %zu)\n", nmemb, size); */
-    flog("calloc(): ", size * nmemb);
+    ft_dprintf(tmpfd(), "calloc(%d, %d)\n", nmemb, size);
+    /* flog("calloc(): ", size * nmemb); */
   }
   lock_mutex();
   void *res = _malloc(nmemb * size);

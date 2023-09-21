@@ -10,8 +10,8 @@ void _free(void *ptr) {
   t_alloc *alloc = find_alloc_ptr(ptr);
   if (!alloc) {
     if (LOGGING) {
-      /* dprintf(tmpfd(), "free(): invalid pointer\n"); */
-      flog("free: invalid pointer", (size_t)ptr);
+      ft_dprintf(tmpfd(), "free(%p): invalid pointer\n", ptr);
+      /* flog("free: invalid pointer", (size_t)ptr); */
     }
     return;
   }
@@ -36,8 +36,8 @@ void _free(void *ptr) {
 
 void free(void *ptr) {
   if (LOGGING) {
-    /* dprintf(tmpfd(), "free()\n"); */
-    flog("free(): ", (size_t)ptr);
+    ft_dprintf(tmpfd(), "free(%p)\n", ptr);
+    /* flog("free(): ", (size_t)ptr); */
   }
   if (!ptr)
     return;

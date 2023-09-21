@@ -11,33 +11,34 @@
 /* ************************************************************************** */
 
 #ifndef FT_PRINTF_H
-# define FT_PRINTF_H
+#define FT_PRINTF_H
 
-# include "../libft.h"
-# include "stdarg.h"
-# include "stdio.h"
+#include "../libft.h"
+#include "stdarg.h"
+#include "stdio.h"
+#include <unistd.h>
 
-typedef struct s_formatoptions
-{
-	int	byteswrotes;
-	int	width;
-	int	precision;
-	int	dash;
-	int	zero;
-	int	hash;
-	int	space;
-	int	plus;
-}	t_formatoptions;
+typedef struct s_formatoptions {
+  int byteswrotes;
+  int width;
+  int precision;
+  int dash;
+  int zero;
+  int hash;
+  int space;
+  int plus;
+  int fd;
+} t_formatoptions;
 
-void	count_bytes(int *counter, int bytesrwotes);
-void	ft_print_string(t_formatoptions *fo, char *s);
-void	ft_print_char(t_formatoptions *fo, unsigned char c);
-void	ft_print_int(t_formatoptions *fo, int n);
-void	ft_print_unsigned_int(t_formatoptions *fo, unsigned int n);
-void	ft_print_hex(t_formatoptions *fo, unsigned int n, char conversion);
-void	ft_print_pointer(t_formatoptions *fo, unsigned long long p);
-int		parse_callprinters(t_formatoptions *fo,
-			const char *format, va_list args);
-int		ft_printf(const char *format, ...);
+void count_bytes(int *counter, int bytesrwotes);
+void ft_print_string(t_formatoptions *fo, char *s);
+void ft_print_char(t_formatoptions *fo, unsigned char c);
+void ft_print_int(t_formatoptions *fo, int n);
+void ft_print_unsigned_int(t_formatoptions *fo, unsigned int n);
+void ft_print_hex(t_formatoptions *fo, unsigned int n, char conversion);
+void ft_print_pointer(t_formatoptions *fo, unsigned long long p);
+int parse_callprinters(t_formatoptions *fo, const char *format, va_list args);
+int ft_printf(const char *format, ...);
+int ft_dprintf(int fd, const char *format, ...);
 
 #endif

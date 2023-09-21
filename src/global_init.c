@@ -23,30 +23,29 @@ int tmpfd() {
   return fd;
 }
 
-void ft_strcat_nbr(char *dest, size_t nbr) {
-  int i;
-
-  i = 0;
-  if (nbr < 0) {
-    dest[ft_strlen(dest)] = '-';
-    nbr = -nbr;
-  }
-  if (nbr > 9) {
-    ft_strcat_nbr(dest, nbr / 10);
-    ft_strcat_nbr(dest, nbr % 10);
-  } else {
-    dest[ft_strlen(dest)] = nbr + '0';
-  }
-}
-
-void flog(char *title, size_t size) {
-  if (ft_strlen(title) + ft_nbrlen(size) >= 128)
-    return;
-  char buffer[128];
-  ft_bzero(&buffer, 128);
-  ft_strlcpy(buffer, title, ft_strlen(title) + 1);
-  /* buffer[ft_strlen(buffer)] = ' '; */
-  ft_strcat_nbr(buffer, size);
-  buffer[ft_strlen(buffer)] = '\n';
-  ft_putstr_fd(buffer, tmpfd());
-}
+/* void ft_strcat_nbr(char *dest, size_t nbr) { */
+/*   int i; */
+/**/
+/*   i = 0; */
+/*   if (nbr < 0) { */
+/*     dest[ft_strlen(dest)] = '-'; */
+/*     nbr = -nbr; */
+/*   } */
+/*   if (nbr > 9) { */
+/*     ft_strcat_nbr(dest, nbr / 10); */
+/*     ft_strcat_nbr(dest, nbr % 10); */
+/*   } else { */
+/*     dest[ft_strlen(dest)] = nbr + '0'; */
+/*   } */
+/* } */
+/**/
+/* void flog(char *title, size_t size) { */
+/*   if (ft_strlen(title) + ft_nbrlen(size) >= 128) */
+/*     return; */
+/*   char buffer[128]; */
+/*   ft_bzero(&buffer, 128); */
+/*   ft_strlcpy(buffer, title, ft_strlen(title) + 1); */
+/*   ft_strcat_nbr(buffer, size); */
+/*   buffer[ft_strlen(buffer)] = '\n'; */
+/*   ft_putstr_fd(buffer, tmpfd()); */
+/* } */

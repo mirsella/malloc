@@ -11,8 +11,8 @@ void *_malloc(size_t size) {
 
 void *malloc(size_t size) {
   if (LOGGING) {
-    /* dprintf(tmpfd(), "malloc(%zu)\n", size); */
-    flog("malloc(): ", size);
+    ft_dprintf(tmpfd(), "malloc(%d)\n", size);
+    /* flog("malloc(): ", size); */
   }
   if (!size)
     size = 1;

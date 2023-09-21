@@ -7,8 +7,8 @@ void *_realloc(void *ptr, size_t size) {
   t_alloc *alloc = find_alloc_ptr(ptr);
   if (!alloc) {
     if (LOGGING) {
-      /* dprintf(tmpfd(), "realloc(%zu): invalid pointer\n", size); */
-      flog("realloc: invalid pointer", (size_t)ptr);
+      ft_dprintf(tmpfd(), "realloc(%p, %d): invalid pointer\n", ptr, size);
+      /* flog("realloc: invalid pointer", (size_t)ptr); */
     }
     return NULL;
   }
@@ -39,8 +39,8 @@ void *_realloc(void *ptr, size_t size) {
 
 void *realloc(void *ptr, size_t size) {
   if (LOGGING) {
-    /* dprintf(tmpfd(), "realloc(%zu)\n", size); */
-    flog("realloc(): ", size);
+    ft_dprintf(tmpfd(), "realloc(%p, %d)\n", ptr, size);
+    /* flog("realloc(): ", size); */
   }
   while (size % ALIGNMENT != 0)
     size++;
