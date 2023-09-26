@@ -3,9 +3,7 @@
 // alternative method to find alloc even if the ptr is in the middle of the
 // alloc
 t_alloc *find_alloc_ptr(void *ptr) {
-  if (TESTNULL(g_mmap))
-    return NULL;
-  for (t_mmap *mmap = g_mmap; !TESTNULL(mmap); mmap = mmap->next) {
+  for (t_mmap *mmap = g_mmap; mmap; mmap = mmap->next) {
     if (ptr < (void *)mmap || ptr > MMAP_SHIFT(mmap) + mmap->size)
       continue;
     for (t_alloc *alloc = mmap->alloc; alloc; alloc = alloc->next) {
@@ -60,9 +58,9 @@ t_alloc *new_alloc(t_mmap *mmap, void *ptr, size_t size) {
 }
 
 t_alloc *find_alloc(size_t size) {
-  if (TESTNULL(g_mmap))
+  if (!g_mmap)
     return NULL;
-  for (t_mmap *mmap = g_mmap; !TESTNULL(mmap); mmap = mmap->next) {
+  for (t_mmap *mmap = g_mmap; mmap; mmap = mmap->next) {
     if (mmap->type != get_mmap_type(size))
       continue;
 

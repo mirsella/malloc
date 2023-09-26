@@ -1,12 +1,10 @@
 #include "../include/malloc.h"
-#include <unistd.h>
 
 void *_malloc(size_t size) {
   t_alloc *res = find_alloc(size);
   if (res)
     return ALLOC_SHIFT(res);
-  if (!new_mmap(size))
-    return NULL;
+  new_mmap(size);
   res = find_alloc(size);
   return ALLOC_SHIFT(res);
 }

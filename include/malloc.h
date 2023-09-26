@@ -17,7 +17,6 @@
 
 #define MMAP_SHIFT(mmap) ((void *)mmap + sizeof(t_mmap))
 #define ALLOC_SHIFT(alloc) ((void *)alloc + sizeof(t_alloc))
-#define TESTNULL(mmap) ((mmap == NULL || mmap == (void *)1) ? 1 : 0)
 
 #define ALIGNMENT 16 // 8 on 32 bits, 16 on 64 bits
 #define TINY_MMAP_SIZE (4 * getpagesize())
@@ -27,7 +26,7 @@
 // 4*4096 - 100*(1024+32) = 25472 free space
 #define SMALL_ALLOC_SIZE (1024)
 
-typedef enum e_type { ANCHOR, TINY, SMALL, LARGE } t_type;
+typedef enum e_type { TINY, SMALL, LARGE } t_type;
 
 typedef struct s_alloc t_alloc; // declare it here to use it in s_mmap
 typedef struct s_mmap {
@@ -58,7 +57,7 @@ void *_malloc(size_t size);
 void *malloc(size_t size);
 
 // free.c
-void _free(void *mmap);
+void _free(void *ptr);
 void free(void *ptr);
 
 // realloc.c

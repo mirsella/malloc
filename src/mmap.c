@@ -17,21 +17,21 @@ t_type get_mmap_type(size_t size) {
 }
 
 t_mmap *new_mmap(size_t size) {
-  void *ptr = mmap(NULL, get_mmap_size(size) + sizeof(t_mmap),
-                   PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-  if (!ptr) {
+  t_mmap *map =
+      mmap(NULL, get_mmap_size(size) + sizeof(t_mmap), PROT_READ | PROT_WRITE,
+           MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+  if (!map) {
     errno = ENOMEM;
     return NULL;
   }
-  t_mmap *map = ptr;
   map->type = get_mmap_type(size);
   map->size = get_mmap_size(size);
   map->next = NULL;
   map->prev = NULL;
   map->alloc = NULL;
-  if (TESTNULL(g_mmap))
+  if (!g_mmap)
     return g_mmap = map;
-  for (t_mmap *tmp = g_mmap; !TESTNULL(tmp); tmp = tmp->next) {
+  for (t_mmap *tmp = g_mmap; tmp; tmp = tmp->next) {
     if (map < tmp) {
       map->prev = tmp->prev;
       map->next = tmp;
