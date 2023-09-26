@@ -1,4 +1,5 @@
 #include "../include/malloc.h"
+#include <unistd.h>
 
 void *_malloc(size_t size) {
   t_alloc *res = find_alloc(size);

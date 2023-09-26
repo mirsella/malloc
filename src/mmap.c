@@ -29,17 +29,17 @@ t_mmap *new_mmap(size_t size) {
   map->next = NULL;
   map->prev = NULL;
   map->alloc = NULL;
-  if ((size_t)g_mmap < 2)
-    return g_mmap = map;
-  for (t_mmap *tmp = g_mmap; (size_t)tmp > 1; tmp = tmp->next) {
+  if ((size_t)g_mmap.next < 2)
+    return g_mmap.next = map;
+  for (t_mmap *tmp = g_mmap.next; (size_t)tmp > 1; tmp = tmp->next) {
     if (map < tmp) {
       map->prev = tmp->prev;
       map->next = tmp;
       tmp->prev = map;
       if (map->prev)
         map->prev->next = map;
-      if (g_mmap == tmp)
-        g_mmap = map;
+      if (g_mmap.next == tmp)
+        g_mmap.next = map;
       break;
     } else if (map > tmp && (map < tmp->next || !tmp->next)) {
       map->prev = tmp;

@@ -1,7 +1,7 @@
 #include "../include/malloc.h"
 #include <string.h>
 
-t_mmap *g_mmap = NULL;
+t_mmap g_mmap = {NULL, NULL, ANCHOR, 0, NULL};
 
 pthread_mutex_t g_mutex = PTHREAD_MUTEX_INITIALIZER;
 

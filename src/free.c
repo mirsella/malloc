@@ -3,7 +3,7 @@
 #include <unistd.h>
 
 void _free(void *ptr) {
-  if (!ptr || (size_t)g_mmap < 2)
+  if (!ptr || (size_t)g_mmap.next < 2)
     return;
   /* t_alloc *alloc = ptr - sizeof(t_alloc); */
   t_alloc *alloc = find_alloc_ptr(ptr);
@@ -31,10 +31,11 @@ void _free(void *ptr) {
     // FIX: this cause page reclaims to skyrocket
     /* if (map == g_mmap) */
     /*   g_mmap = map->next; */
-    /* if (map == g_mmap) */
-    /*   g_mmap = map->next ? map->next : (void *)1; */
-    if (map == g_mmap)
-      g_mmap = (void *)1;
+
+    /* if (map == g_mmap.next) */
+    /*   g_mmap.next = map->next ? map->next : (void *)1; */
+    if (map == g_mmap.next)
+      g_mmap.next = (void *)1;
     munmap(map, map->size + sizeof(t_mmap));
   }
 }

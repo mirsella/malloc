@@ -26,7 +26,7 @@
 // 4*4096 - 100*(1024+32) = 25472 free space
 #define SMALL_ALLOC_SIZE (1024)
 
-typedef enum e_type { TINY, SMALL, LARGE } t_type;
+typedef enum e_type { ANCHOR, TINY, SMALL, LARGE } t_type;
 
 typedef struct s_alloc t_alloc; // declare it here to use it in s_mmap
 typedef struct s_mmap {
@@ -44,7 +44,7 @@ typedef struct s_alloc {
   size_t size;
 } t_alloc;
 
-extern t_mmap *g_mmap;
+extern t_mmap g_mmap;
 
 // global_init.c
 void lock_mutex();

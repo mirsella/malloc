@@ -1,10 +1,9 @@
-#include <stdlib.h>
+#include "include/malloc.h"
 #include <string.h>
 #include <unistd.h>
 
 void print(char *s) { write(1, s, strlen(s)); }
 
-void test(void *p);
 int main(void) {
   int i;
   char *addr;
