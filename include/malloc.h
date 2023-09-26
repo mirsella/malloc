@@ -17,6 +17,7 @@
 
 #define MMAP_SHIFT(mmap) ((void *)mmap + sizeof(t_mmap))
 #define ALLOC_SHIFT(alloc) ((void *)alloc + sizeof(t_alloc))
+#define TESTNULL(mmap) ((mmap == NULL || mmap == (void *)1) ? 1 : 0)
 
 #define ALIGNMENT 16 // 8 on 32 bits, 16 on 64 bits
 #define TINY_MMAP_SIZE (4 * getpagesize())
@@ -44,7 +45,7 @@ typedef struct s_alloc {
   size_t size;
 } t_alloc;
 
-extern t_mmap g_mmap;
+extern t_mmap *g_mmap;
 
 // global_init.c
 void lock_mutex();
@@ -57,7 +58,7 @@ void *_malloc(size_t size);
 void *malloc(size_t size);
 
 // free.c
-void _free(void *ptr);
+void _free(void *mmap);
 void free(void *ptr);
 
 // realloc.c
