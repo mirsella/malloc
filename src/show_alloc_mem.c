@@ -11,13 +11,13 @@ char *get_type_string(t_type type) {
 
 void show_alloc_mem() {
   lock_mutex();
-  if (!g_mmap) {
+  if ((size_t)g_mmap < 2) {
     ft_putstr("show_alloc_mem(): No memory allocated\n");
     unlock_mutex();
     return;
   }
   size_t total = 0;
-  for (t_mmap *mmap = g_mmap; mmap; mmap = mmap->next) {
+  for (t_mmap *mmap = g_mmap; (size_t)mmap > 1; mmap = mmap->next) {
     ft_printf("%s : %p\n", get_type_string(mmap->type), mmap);
     for (t_alloc *alloc = mmap->alloc; alloc; alloc = alloc->next) {
       if (!alloc)
@@ -70,13 +70,13 @@ void hexdump(void *ptr, size_t size) {
 
 void show_alloc_mem_asciidump() {
   lock_mutex();
-  if (!g_mmap) {
+  if ((size_t)g_mmap < 2) {
     ft_putstr("show_alloc_mem_ex(): No memory allocated\n");
     unlock_mutex();
     return;
   }
   size_t total = 0;
-  for (t_mmap *mmap = g_mmap; mmap; mmap = mmap->next) {
+  for (t_mmap *mmap = g_mmap; (size_t)mmap > 1; mmap = mmap->next) {
     ft_printf("%s : %p\n", get_type_string(mmap->type), mmap);
     for (t_alloc *alloc = mmap->alloc; alloc; alloc = alloc->next) {
       if (!alloc)
@@ -99,13 +99,13 @@ void show_alloc_mem_asciidump() {
 
 void show_alloc_mem_hexdump() {
   lock_mutex();
-  if (!g_mmap) {
+  if ((size_t)g_mmap < 2) {
     ft_putstr("show_alloc_mem_ex(): No memory allocated\n");
     unlock_mutex();
     return;
   }
   size_t total = 0;
-  for (t_mmap *mmap = g_mmap; mmap; mmap = mmap->next) {
+  for (t_mmap *mmap = g_mmap; (size_t)mmap > 1; mmap = mmap->next) {
     ft_printf("%s : %p\n", get_type_string(mmap->type), mmap);
     for (t_alloc *alloc = mmap->alloc; alloc; alloc = alloc->next) {
       if (!alloc)

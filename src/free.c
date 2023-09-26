@@ -1,8 +1,9 @@
 #include "../include/malloc.h"
 #include <stddef.h>
+#include <unistd.h>
 
 void _free(void *ptr) {
-  if (!ptr | !g_mmap)
+  if (!ptr || (size_t)g_mmap < 2)
     return;
   /* t_alloc *alloc = ptr - sizeof(t_alloc); */
   t_alloc *alloc = find_alloc_ptr(ptr);
@@ -30,22 +31,15 @@ void _free(void *ptr) {
     // FIX: this cause page reclaims to skyrocket
     /* if (map == g_mmap) */
     /*   g_mmap = map->next; */
-    t_mmap *gmmap = g_mmap;
-    (void)gmmap;
-    if (map == g_mmap) {
-      /* gmmap = map->next; */
-      if (map->next)
-        g_mmap = map->next;
-      else
-        g_mmap = NULL;
-    }
+    /* if (map == g_mmap) */
+    /*   g_mmap = map->next ? map->next : (void *)1; */
+    if (map == g_mmap)
+      g_mmap = (void *)1;
     munmap(map, map->size + sizeof(t_mmap));
   }
 }
 
 void free(void *ptr) {
-  (void)ptr;
-  /* return; */
   if (LOGGING) {
     ft_dprintf(tmpfd(), "free(%p)\n", ptr);
     /* flog("free(): ", (size_t)ptr); */

@@ -4,7 +4,8 @@ void *_malloc(size_t size) {
   t_alloc *res = find_alloc(size);
   if (res)
     return ALLOC_SHIFT(res);
-  new_mmap(size);
+  if (!new_mmap(size))
+    return NULL;
   res = find_alloc(size);
   return ALLOC_SHIFT(res);
 }

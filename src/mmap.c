@@ -29,9 +29,9 @@ t_mmap *new_mmap(size_t size) {
   map->next = NULL;
   map->prev = NULL;
   map->alloc = NULL;
-  if (!g_mmap)
+  if ((size_t)g_mmap < 2)
     return g_mmap = map;
-  for (t_mmap *tmp = g_mmap; tmp; tmp = tmp->next) {
+  for (t_mmap *tmp = g_mmap; (size_t)tmp > 1; tmp = tmp->next) {
     if (map < tmp) {
       map->prev = tmp->prev;
       map->next = tmp;
