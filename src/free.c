@@ -27,13 +27,25 @@ void _free(void *ptr) {
       map->prev->next = map->next;
     if (map->next)
       map->next->prev = map->prev;
-    if (map == g_mmap)
-      g_mmap = map->next;
+    // FIX: this cause page reclaims to skyrocket
+    /* if (map == g_mmap) */
+    /*   g_mmap = map->next; */
+    t_mmap *gmmap = g_mmap;
+    (void)gmmap;
+    if (map == g_mmap) {
+      /* gmmap = map->next; */
+      if (map->next)
+        g_mmap = map->next;
+      else
+        g_mmap = NULL;
+    }
     munmap(map, map->size + sizeof(t_mmap));
   }
 }
 
 void free(void *ptr) {
+  (void)ptr;
+  /* return; */
   if (LOGGING) {
     ft_dprintf(tmpfd(), "free(%p)\n", ptr);
     /* flog("free(): ", (size_t)ptr); */

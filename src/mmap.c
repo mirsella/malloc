@@ -17,8 +17,9 @@ t_type get_mmap_type(size_t size) {
 }
 
 t_mmap *new_mmap(size_t size) {
-  t_mmap *map = mmap(NULL, get_mmap_size(size) + sizeof(t_mmap),
-                     PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, 0, 0);
+  t_mmap *map =
+      mmap(NULL, get_mmap_size(size) + sizeof(t_mmap), PROT_READ | PROT_WRITE,
+           MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
   if (!map) {
     errno = ENOMEM;
     return NULL;
