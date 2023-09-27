@@ -21,13 +21,15 @@ void _free(void *ptr) {
     alloc->parent->alloc = alloc->next;
 
   // in case it's the only alloc in a t_mmap, free the mmap
-  if (!alloc->next && !alloc->prev && alloc->parent->type == LARGE) {
+  // and only if there is still a t_mmap in g_mmap
+  if (!alloc->next && !alloc->prev &&
+      (g_mmap->next || alloc->parent->type == LARGE)) {
     t_mmap *map = alloc->parent;
     if (map->prev)
       map->prev->next = map->next;
     if (map->next)
       map->next->prev = map->prev;
-    // FIX: this cause page reclaims to skyrocket
+    // WARN: this cause minor page faults (page reclaims) to skyrocket
     if (map == g_mmap)
       g_mmap = map->next;
     munmap(map, map->size + sizeof(t_mmap));
@@ -35,8 +37,6 @@ void _free(void *ptr) {
 }
 
 void free(void *ptr) {
-  (void)ptr;
-  /* return; */
   if (LOGGING) {
     ft_dprintf(tmpfd(), "free(%p)\n", ptr);
     /* flog("free(): ", (size_t)ptr); */
