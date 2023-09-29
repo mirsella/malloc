@@ -6,11 +6,11 @@
 #include <string.h>
 
 int main() {
-  // 1. Basic functionality tests
   char *str = (char *)malloc(20);
   assert(str != NULL);
-  strcpy(str, "42helloworld");
+  ft_strlcpy(str, "42helloworld", 20);
   assert(strcmp(str, "42helloworld") == 0);
+  ft_bzero(str, 20);
   free(str);
 
   int *arr = (int *)calloc(5, sizeof(int));
@@ -18,20 +18,23 @@ int main() {
   for (int i = 0; i < 5; i++) {
     assert(arr[i] == 0);
   }
+  ft_bzero(arr, 5 * sizeof(int));
   free(arr);
 
   char *dynstr = (char *)malloc(5);
   assert(dynstr != NULL);
-  strcpy(dynstr, "Test");
+  ft_strlcpy(dynstr, "Test", 5);
   dynstr = realloc(dynstr, 10);
-  strcat(dynstr, "1234");
-  assert(strcmp(dynstr, "Test1234") == 0);
+  ft_strlcat(dynstr, "1234", 10);
+  assert(ft_strcmp(dynstr, "Test1234") == 0);
+  ft_bzero(dynstr, 10);
   free(dynstr);
 
   void *edge1 = malloc(0);
   free(edge1);
 
   char *edge2 = (char *)malloc(5);
+  ft_bzero(edge2, 5);
   edge2 = realloc(edge2, 0);
   assert(edge2 == NULL);
 
