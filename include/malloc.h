@@ -15,8 +15,8 @@
 #define LOGGING false
 #define LOGFILE "/tmp/malloc.log"
 
-#define MMAP_SHIFT(mmap) ((void *)mmap + sizeof(t_mmap))
-#define ALLOC_SHIFT(alloc) ((void *)alloc + sizeof(t_alloc))
+#define MMAP_SHIFT(mmap) ((size_t)mmap + sizeof(t_mmap))
+#define ALLOC_SHIFT(alloc) ((size_t)alloc + sizeof(t_alloc))
 
 #define ALIGNMENT 16 // 8 on 32 bits, 16 on 64 bits
 #define TINY_MMAP_SIZE (4 * getpagesize())
@@ -72,6 +72,7 @@ void *calloc(size_t nmemb, size_t size);
 void *reallocarray(void *ptr, size_t nmemb, size_t size);
 
 // alloc.c
+void *alignp(size_t size);
 t_alloc *find_alloc_ptr(void *ptr);
 size_t get_alloc_size(size_t size);
 t_alloc *find_alloc(size_t size);

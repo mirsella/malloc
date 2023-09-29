@@ -3,7 +3,7 @@ OBJS = $(SRCS:.c=.o)
 DEPS = $(SRCS:.c=.d)
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -MMD -fPIC -pthread
+CFLAGS = -Wall -Wextra -Werror -MMD -fPIC -pthread -pedantic -fsanitize=address
 
 HOSTNAME := $(shell hostname)
 
@@ -38,7 +38,7 @@ re: fclean all
 rere: ffclean all
 
 test: $(NAME)
-	$(CC) -g3 -Werror -Wall -Wextra -MMD -O0 -o test test.c -L. -lft_malloc -Wl,-rpath=.
+	$(CC) -g3 -Werror -Wall -Wextra -MMD -O0 -o test test.c ./$(NAME) $(LIBFT)
 
 $(LIBFT):
 	make -C libft

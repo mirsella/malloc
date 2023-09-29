@@ -4,14 +4,16 @@
 // alloc
 t_alloc *find_alloc_ptr(void *ptr) {
   for (t_mmap *mmap = g_mmap; mmap; mmap = mmap->next) {
-    if (ptr < (void *)mmap || ptr > MMAP_SHIFT(mmap) + mmap->size)
+    if ((size_t)ptr < (size_t)mmap ||
+        (size_t)ptr > MMAP_SHIFT(mmap) + mmap->size)
       continue;
     for (t_alloc *alloc = mmap->alloc; alloc; alloc = alloc->next) {
-      if (ptr > ALLOC_SHIFT(alloc) + alloc->size)
+      if ((size_t)ptr > ALLOC_SHIFT(alloc) + alloc->size)
         continue;
-      if (ptr < (void *)alloc)
+      if ((size_t)ptr < (size_t)alloc)
         return NULL;
-      if (ptr < ALLOC_SHIFT(alloc) + alloc->size && ptr >= ALLOC_SHIFT(alloc))
+      if ((size_t)ptr < ALLOC_SHIFT(alloc) + alloc->size &&
+          (size_t)ptr >= ALLOC_SHIFT(alloc))
         return alloc;
       return NULL;
     }
@@ -19,7 +21,7 @@ t_alloc *find_alloc_ptr(void *ptr) {
   return NULL;
 }
 
-void *alignp(void *size) {
+void *alignp(size_t size) {
   intptr_t s = (intptr_t)size;
   while (s % ALIGNMENT != 0)
     s++;
@@ -61,27 +63,26 @@ t_alloc *find_alloc(size_t size) {
   if (!g_mmap)
     return NULL;
   for (t_mmap *mmap = g_mmap; mmap; mmap = mmap->next) {
-    if (mmap->type != get_mmap_type(size))
+    if (mmap->type != get_mmap_type(size - ALIGNMENT))
       continue;
 
     // in case it's the first allocation of a mmap
     if (!mmap->alloc)
-      return new_alloc(mmap, alignp(MMAP_SHIFT(mmap)), size);
+      return new_alloc(mmap, (void *)MMAP_SHIFT(mmap), size);
 
     t_alloc *alloc = mmap->alloc;
-    void *ptr = alignp(MMAP_SHIFT(mmap));
-    // + ALIGNMENT because we need to have space to align the alloc
-    size_t needed_space = size + sizeof(t_alloc) + ALIGNMENT;
+    void *ptr = (void *)MMAP_SHIFT(mmap);
+    size_t needed_space = size + sizeof(t_alloc);
     while (alloc) { // seach for space between allocated spaces
-      size_t space = (void *)alloc - ptr;
-      if (ptr < (void *)alloc && space >= needed_space)
+      size_t space = (size_t)alloc - (size_t)ptr;
+      if ((size_t)ptr < (size_t)alloc && space >= needed_space)
         return new_alloc(mmap, ptr, size);
 
-      ptr = alignp(ALLOC_SHIFT(alloc) + alloc->size);
+      ptr = (void *)((size_t)ALLOC_SHIFT(alloc) + alloc->size);
       alloc = alloc->next;
     }
     // allocated space after the last allocated space
-    if ((size_t)(MMAP_SHIFT(mmap) + mmap->size - ptr) >= needed_space)
+    if ((size_t)(MMAP_SHIFT(mmap) + mmap->size - (size_t)ptr) >= needed_space)
       return new_alloc(mmap, ptr, size);
   }
   return NULL;

@@ -3,6 +3,7 @@
 void *_realloc(void *ptr, size_t size) {
   if (!ptr || !size)
     return NULL;
+  size += ALIGNMENT;
   /* t_alloc *alloc = ptr - sizeof(t_alloc); */
   t_alloc *alloc = find_alloc_ptr(ptr);
   if (!alloc) {
@@ -17,20 +18,20 @@ void *_realloc(void *ptr, size_t size) {
   // reduce space
   if (alloc->size >= size) {
     alloc->size = size;
-    return ALLOC_SHIFT(alloc);
+    return ptr;
   }
 
   // find bigger space
   if (alloc->next && (size_t)alloc->next - (size_t)ptr >= size) {
     alloc->size = size;
-    return ALLOC_SHIFT(alloc);
+    return alignp(ALLOC_SHIFT(alloc));
   } else if (!alloc->next &&
              (size_t)MMAP_SHIFT(map) + map->size - (size_t)ptr >= size) {
     alloc->size = size;
-    return ALLOC_SHIFT(alloc);
+    return alignp(ALLOC_SHIFT(alloc));
   } else {
-    void *new = _malloc(size);
-    ft_memcpy(new, ALLOC_SHIFT(alloc), alloc->size);
+    void *new = _malloc(size - ALIGNMENT);
+    ft_memcpy(new, alignp(ALLOC_SHIFT(alloc)), alloc->size);
     _free(ptr);
     return new;
   }

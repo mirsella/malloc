@@ -10,7 +10,8 @@ void *calloc(size_t nmemb, size_t size) {
     return NULL;
   }
 
-  if (nmemb * size == 0)
+  size = nmemb * size;
+  if (size == 0)
     size = 1;
   while (size % ALIGNMENT != 0)
     size++;
@@ -19,8 +20,9 @@ void *calloc(size_t nmemb, size_t size) {
     /* flog("calloc(): ", size * nmemb); */
   }
   lock_mutex();
-  void *res = _malloc(nmemb * size);
+  void *res = _malloc(size);
   unlock_mutex();
-  ft_bzero(res, nmemb * size);
+  if (res)
+    ft_bzero(res, size);
   return res;
 }

@@ -1,12 +1,15 @@
 #include "../include/malloc.h"
 
 void *_malloc(size_t size) {
+  size += ALIGNMENT;
   t_alloc *res = find_alloc(size);
   if (res)
-    return ALLOC_SHIFT(res);
-  new_mmap(size);
+    return alignp(ALLOC_SHIFT(res));
+  new_mmap(size - ALIGNMENT);
   res = find_alloc(size);
-  return ALLOC_SHIFT(res);
+  if (!res)
+    return NULL;
+  return alignp(ALLOC_SHIFT(res));
 }
 
 void *malloc(size_t size) {
@@ -21,5 +24,7 @@ void *malloc(size_t size) {
   lock_mutex();
   void *res = _malloc(size);
   unlock_mutex();
+  if (!res)
+    ft_printf("malloc returned null\n");
   return res;
 }

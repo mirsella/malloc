@@ -50,7 +50,7 @@ void asciidump(void *ptr, size_t size) {
     b = *((unsigned char *)ptr + i);
     if (ft_isprint(b))
       ft_printf("%c", b);
-    else if (is_end(ptr + i + 1, size - i - 1)) {
+    else if (is_end((void *)((size_t)ptr + i + 1), size - i - 1)) {
       ft_printf("\\0");
       return;
     } else
@@ -83,7 +83,7 @@ void show_alloc_mem_asciidump() {
         continue;
       ft_printf("%p - %p : %d bytes\n", ALLOC_SHIFT(alloc),
                 ALLOC_SHIFT(alloc) + alloc->size, alloc->size);
-      asciidump(ALLOC_SHIFT(alloc), alloc->size);
+      asciidump((void *)ALLOC_SHIFT(alloc), alloc->size);
       ft_putstr("\n\n");
       if (alloc->next == alloc) {
         ft_printf("detected infinite loop on alloc at %p\n",
@@ -112,7 +112,7 @@ void show_alloc_mem_hexdump() {
         continue;
       ft_printf("%p - %p : %d bytes\n", ALLOC_SHIFT(alloc),
                 ALLOC_SHIFT(alloc) + alloc->size, alloc->size);
-      hexdump(ALLOC_SHIFT(alloc), alloc->size);
+      hexdump((void *)ALLOC_SHIFT(alloc), alloc->size);
       ft_putstr("\n\n");
       if (alloc->next == alloc) {
         ft_printf("detected infinite loop on alloc at %p\n",
