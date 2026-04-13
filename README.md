@@ -1,9 +1,27 @@
-# bonus :
+# malloc
 
-- Manage the use of your malloc in a multi-threaded program (so to be “thread safe” using the pthread lib).
-- LOGGING and LOGFILE define in malloc.h
-- show_alloc_mem_asciidump() and show_alloc_mem_hexdump() functions
-- calloc, reallocarray, functions + simple tester
-- “Defragment” the freed memory.
+Custom `malloc` implementation built as a shared library.
 
-tester found: https://gitlab.com/mmeisson_42/correction-tests/malloc
+This project also includes a few extras: thread safety, logging, dump helpers, `calloc`, `reallocarray`, and a simple test program.
+
+## Build
+
+```bash
+make
+```
+
+## Quick test
+
+```bash
+make test
+```
+
+## Use with a program
+
+```bash
+LD_PRELOAD=./libft_malloc.so ls
+```
+
+Reference tester:
+
+- `https://gitlab.com/mmeisson_42/correction-tests/malloc`
